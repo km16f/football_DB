@@ -33,6 +33,8 @@ class MainWindow(widget.QWidget):
         self.main_layout.addWidget(self.off_stats)
         self.main_layout.addWidget(self.def_stats)
         self.main_layout.addWidget(self.five_club)
+        self.main_layout.addWidget(self.add_team)
+        self.main_layout.addWidget(self.compare)
         self.setLayout(self.main_layout)
 
         self.show()
@@ -41,7 +43,7 @@ class MainWindow(widget.QWidget):
         self.off_stats.clicked.connect(self.open_offense)
         self.def_stats.clicked.connect(self.open_defense)
         self.five_club.clicked.connect(self.print_five)
-        self.add_team.clicked.connect(self.add_team)
+        self.add_team.clicked.connect(self.add_new_team)
         self.compare.clicked.connect(self.bad_teams)
 
     def open_rankings(self):
@@ -60,6 +62,13 @@ class MainWindow(widget.QWidget):
         self.fiver = src.bin.offense_stats.FiveClub()
         self.fiver.show()
 
+    def add_new_team(self):
+        self.add = src.bin.rankings.AddTeam()
+        self.add.show()
+
+    def bad_teams(self):
+        self.bad = src.bin.rankings.BadTeams
+        self.bad.show()
 
 
 if __name__ == "__main__":

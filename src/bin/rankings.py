@@ -42,6 +42,19 @@ class Rankings(QWidget):
         self.show()
 
 
+class AddTeam(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Add Team")
+        self.setGeometry(600, 200, 200, 200)
+
+        self.main_layout1 = QVBoxLayout()
+
+
+class BadTeams(QWidget):
+    print("butt")
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = Rankings()

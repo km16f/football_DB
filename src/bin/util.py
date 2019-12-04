@@ -120,6 +120,11 @@ def get_defense(name):
     return a
 
 
+def get_bad():
+    c.execute('''SELECT o_stats.mascot_name,o_stats.total_yards, d_stats.yards_allowed FROM o_stats, d_stats WHERE o_stats.total_yards < d_stats.yards_allowed''')
+    a = c.fetchall()
+    return a
+
 def initialize_defense():
     insert_defense("Ravens", 3881, 2742, 1139, 22)
     insert_defense("Saints", 3882, 2819, 1062, 28)
