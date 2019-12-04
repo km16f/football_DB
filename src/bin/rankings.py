@@ -48,6 +48,8 @@ class AddTeam(QWidget):
         self.setWindowTitle("Add Team")
         self.setGeometry(600, 200, 200, 200)
 
+        self.main_layout1 = QVBoxLayout()
+
         self.submit = QPushButton("Submit")
         self.label1 = QLabel("Enter Team Location: ")
         self.label2 = QLabel("Enter Team Mascot: ")
@@ -62,8 +64,11 @@ class AddTeam(QWidget):
         self.h4 = QHBoxLayout()
         self.h5 = QHBoxLayout()
         self.h6 = QHBoxLayout()
+        self.h7 = QHBoxLayout()
 
-        self.main_layout1 = QVBoxLayout()
+        self.h7.addWidget(self.submit)
+
+
         self.line1 = QLineEdit()
         self.line2 = QLineEdit()
         self.line3 = QLineEdit()
@@ -89,14 +94,18 @@ class AddTeam(QWidget):
         self.h6.addWidget(self.label6)
         self.h6.addWidget(self.line6)
 
+
         self.main_layout1.addLayout(self.h1)
         self.main_layout1.addLayout(self.h2)
         self.main_layout1.addLayout(self.h3)
         self.main_layout1.addLayout(self.h4)
         self.main_layout1.addLayout(self.h5)
         self.main_layout1.addLayout(self.h6)
+        self.main_layout1.addLayout(self.h7)
 
-        self.submit.clicked.connect(self.submit)
+        self.setLayout(self.main_layout1)
+
+
 
     def submit(self):
         src.bin.util.insert_rankings(self.label1.text(), self.label2.text(), self.label3.text(), self.label4.text(), self.label5.text())
