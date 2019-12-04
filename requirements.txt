@@ -1,0 +1,3 @@
+PyMySQL
+PySide2
+PyQt5
