@@ -14,6 +14,7 @@ def create_rankings():
     losses INTEGER,
     ranking INTEGER UNIQUE 
     )''')
+    conn.commit()
 
 
 def create_teams():
@@ -23,6 +24,7 @@ def create_teams():
     mascot_name VARCHAR(20) PRIMARY KEY,
     division VARCHAR (30)
     )''')
+    conn.commit()
 
 
 def create_offense_stats():
@@ -34,17 +36,19 @@ def create_offense_stats():
     rush_yards INTEGER,
     TD INTEGER 
     )''')
+    conn.commit()
 
 
 def create_defense_stats():
     c.execute('''
     CREATE TABLE d_stats (
-    mascot_name PRIMARY KEY,
+    mascot_name VARCHAR(20) PRIMARY KEY,
     yards_allowed INTEGER,
     pass_yards INTEGER,
     rush_yards INTEGER,
     TD INTEGER 
     )''')
+    conn.commit()
 
 
 def insert_team(l,m,d):
@@ -84,6 +88,45 @@ def remove_from_rankings(name):
     c.execute("DELETE FROM rankings WHERE location=?", name)
     conn.commit()
 
+
+def insert_offense(m, total, p, rush, td):
+    c.execute('''INSERT INTO o_stats (mascot_name, total_yards, pass_yards, rush_yards, TD) VALUES (?,?,?,?,?)''', (m, total, p, rush, td))
+    conn.commit()
+
+
+def initialize_offense():
+    insert_offense("Baltimore", "Ravens", "AFC North")
+    insert_offense("New Orleans", "Saints", "NFC South")
+    insert_offense("Seattle", "Seahawks", "NFC West")
+    insert_offense("San Francisco", "49ers", "NFC West")
+    insert_offense("New England", "Patriots", "AFC East")
+    insert_offense("Green Bay", "Packers", "NFC North")
+    insert_offense("Minnesota", "Vikings", "NFC North")
+    insert_offense("Buffalo", "Bills", "AFC East")
+    insert_offense("Houston", "Texans", "AFC South")
+    insert_offense("Kansas City", "Chiefs", "AFC West")
+    insert_offense("Tennessee", "Titans", "AFC South")
+    insert_offense("Pittsburgh", "Steelers", "AFC North")
+    insert_offense("Indianapolis", "Colts", "AFC South")
+    insert_offense("Dallas", "Cowboys", "NFC East")
+    insert_offense("L.A.", "Rams", "NFC West")
+    insert_offense("Philadelphia", "Eagles", "NFC East")
+    insert_offense("Chicago", "Bears", "NFC North")
+    insert_offense("Oakland", "Raiders", "AFC West")
+    insert_offense("Tampa Bay", "Buccaneers", "NFC South")
+    insert_offense("Cleveland", "Browns", "AFC North")
+    insert_offense("Carolina", "Panthers", "NFC South")
+    insert_offense("Denver", "Broncos", "AFC West")
+    insert_offense("L.A.", "Chargers", "AFC West")
+    insert_offense("Arizona", "Cardinals", "NFC West")
+    insert_offense("New York", "Jets", "AFC East")
+    insert_offense("Jacksonville", "Jaguars", "AFC South")
+    insert_offense("Washington", "Redskins", "NFC East")
+    insert_offense("Atlanta", "Falcons", "NFC South")
+    insert_offense("Miami", "Dolphins", "AFC East")
+    insert_offense("Detroit", "Lions", "NFC North")
+    insert_offense("New York", "Giants", "NFC East")
+    insert_offense("Cincinnati", "Bengals", "AFC North")
 
 def initialize_teams():
     insert_team("Baltimore", "Ravens", "AFC North")
@@ -156,3 +199,5 @@ def initialize_rankings():
 
 
 if __name__ == "__main__":
+    # create_defense_stats()
+    # create_offense_stats()
