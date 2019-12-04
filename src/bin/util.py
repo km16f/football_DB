@@ -85,7 +85,7 @@ def get_rankings():
 
 
 def remove_from_rankings(name):
-    c.execute("DELETE FROM rankings WHERE location=?", name)
+    c.execute("DELETE FROM rankings WHERE location=?", (name,))
     conn.commit()
 
 
@@ -94,39 +94,100 @@ def insert_offense(m, total, p, rush, td):
     conn.commit()
 
 
+def get_offense(name):
+    c.execute('''SELECT * FROM o_stats WHERE mascot_name=?''', (name,))
+    a = c.fetchall()
+    return a
+
+
+def get_5000():
+    c.execute('''SELECT teams.location, teams.mascot_name, o_stats.total_yards 
+    FROM o_stats, teams 
+    WHERE teams.mascot_name = o_stats.mascot_name AND o_stats.total_yards >= 5000''')
+    a = c.fetchall()
+    return a
+
+
+def insert_defense(m, total, p, rush, td):
+    c.execute('''INSERT INTO d_stats (mascot_name, yards_allowed, pass_yards, rush_yards, TD) VALUES (?,?,?,?,?)''',
+              (m, total, p, rush, td))
+    conn.commit()
+
+
+def get_defense(name):
+    c.execute('''SELECT * FROM d_stats WHERE mascot_name=?''', (name,))
+    a = c.fetchall()
+    return a
+
+
+def initialize_defense():
+    insert_defense("Ravens", 3881, 2742, 1139, 22)
+    insert_defense("Saints", 3882, 2819, 1062, 28)
+    insert_defense("Seahawks", 4427, 3232, 1195, 34)
+    insert_defense("49ers", 3011, 1611, 1134, 20)
+    insert_defense("Patriots", 3096, 1962, 1134, 17)
+    insert_defense("Packers", 4521, 3045, 1476, 28)
+    insert_defense("Vikings", 4169, 2915, 1254, 26)
+    insert_defense("Bills", 3601, 2350, 1251, 23)
+    insert_defense("Texans", 4488, 3155, 1333, 31)
+    insert_defense("Chiefs", 4465, 2769, 1696, 31)
+    insert_defense("Titans", 4345, 3121, 1224, 26)
+    insert_defense("Steelers", 3086, 2562, 1244, 25)
+    insert_defense("Colts", 3944, 2723, 1221, 28)
+    insert_defense("Cowboys", 3859, 2582, 1277, 25)
+    insert_defense("Rams", 3924, 2674, 1250, 29)
+    insert_defense("Eagles", 3992, 2900, 1092, 34)
+    insert_defense("Bears", 3836, 2666, 1170, 23)
+    insert_defense("Raiders", 4341, 3098, 1243, 40)
+    insert_defense("Buccaneers", 4297, 3382, 915, 38)
+    insert_defense("Browns", 4047, 2559, 1488, 32)
+    insert_defense("Panthers", 4400, 2750, 1650, 37)
+    insert_defense("Broncos", 3891, 2572, 1364, 23)
+    insert_defense("Chargers", 3711, 2392, 1319, 28)
+    insert_defense("Cardinals", 5116, 3690, 1426, 42)
+    insert_defense("Jets", 3809, 2906, 903, 32)
+    insert_defense("Jaguars", 4325, 2686, 1639, 35)
+    insert_defense("Redskins", 4337, 2758, 1579, 34)
+    insert_defense("Falcons", 4418, 3114, 1304, 37)
+    insert_defense("Dolphins", 4796, 3074, 1722, 43)
+    insert_defense("Lions", 4777, 3361, 1416, 31)
+    insert_defense("Giants", 4474, 3103, 1371, 40)
+    insert_defense("Bengals", 4860, 2969, 1891, 32)
+
+
 def initialize_offense():
-    insert_offense("Baltimore", "Ravens", "AFC North")
-    insert_offense("New Orleans", "Saints", "NFC South")
-    insert_offense("Seattle", "Seahawks", "NFC West")
-    insert_offense("San Francisco", "49ers", "NFC West")
-    insert_offense("New England", "Patriots", "AFC East")
-    insert_offense("Green Bay", "Packers", "NFC North")
-    insert_offense("Minnesota", "Vikings", "NFC North")
-    insert_offense("Buffalo", "Bills", "AFC East")
-    insert_offense("Houston", "Texans", "AFC South")
-    insert_offense("Kansas City", "Chiefs", "AFC West")
-    insert_offense("Tennessee", "Titans", "AFC South")
-    insert_offense("Pittsburgh", "Steelers", "AFC North")
-    insert_offense("Indianapolis", "Colts", "AFC South")
-    insert_offense("Dallas", "Cowboys", "NFC East")
-    insert_offense("L.A.", "Rams", "NFC West")
-    insert_offense("Philadelphia", "Eagles", "NFC East")
-    insert_offense("Chicago", "Bears", "NFC North")
-    insert_offense("Oakland", "Raiders", "AFC West")
-    insert_offense("Tampa Bay", "Buccaneers", "NFC South")
-    insert_offense("Cleveland", "Browns", "AFC North")
-    insert_offense("Carolina", "Panthers", "NFC South")
-    insert_offense("Denver", "Broncos", "AFC West")
-    insert_offense("L.A.", "Chargers", "AFC West")
-    insert_offense("Arizona", "Cardinals", "NFC West")
-    insert_offense("New York", "Jets", "AFC East")
-    insert_offense("Jacksonville", "Jaguars", "AFC South")
-    insert_offense("Washington", "Redskins", "NFC East")
-    insert_offense("Atlanta", "Falcons", "NFC South")
-    insert_offense("Miami", "Dolphins", "AFC East")
-    insert_offense("Detroit", "Lions", "NFC North")
-    insert_offense("New York", "Giants", "NFC East")
-    insert_offense("Cincinnati", "Bengals", "AFC North")
+    insert_offense("Ravens", 5049, 2555, 2494, 49 )
+    insert_offense("Saints", 4337, 3049, 1288, 31 )
+    insert_offense("Seahawks", 4683, 2959, 1724, 40)
+    insert_offense("49ers", 4536, 2760, 1776, 41)
+    insert_offense("Patriots", 4329, 3173, 1156, 38)
+    insert_offense("Packers", 4080, 2863, 1217, 35)
+    insert_offense("Vikings", 4519, 2874, 1645, 39)
+    insert_offense("Bills", 4236, 2581, 1655, 30)
+    insert_offense("Texans", 4474, 2916, 1558, 36)
+    insert_offense("Chiefs", 4616, 3482, 1134, 39)
+    insert_offense("Titans", 3957, 2452, 1505, 36)
+    insert_offense("Steelers",3496, 2406, 1090, 24)
+    insert_offense("Colts", 4025, 2475, 1668, 30)
+    insert_offense("Cowboys", 5193, 3662, 1531, 36)
+    insert_offense("Rams", 4435, 3305, 1130, 31)
+    insert_offense("Eagles", 4108, 3089, 1438, 32)
+    insert_offense("Bears", 3381, 2429, 952, 24)
+    insert_offense("Raiders", 4257, 2785, 1485, 29)
+    insert_offense("Buccaneers", 4565, 3410, 1155, 39)
+    insert_offense("Browns", 4175, 2703, 1472, 27)
+    insert_offense("Panthers", 4095, 2645, 1446, 32)
+    insert_offense("Broncos", 3549, 2249, 1300, 19)
+    insert_offense("Chargers", 4359, 3280, 1069, 25)
+    insert_offense("Cardinals", 3981, 2612, 1379, 25)
+    insert_offense("Jets", 3154, 2283, 871, 24)
+    insert_offense("Jaguars", 4313, 2952, 1361, 21)
+    insert_offense("Redskins", 3149, 1956, 1193,17)
+    insert_offense("Falcons", 4433, 3542, 891, 29)
+    insert_offense("Dolphins", 3323, 2570, 753, 24)
+    insert_offense("Lions", 4527, 3260, 1267, 31)
+    insert_offense("Giants", 3800, 2645, 1146, 29)
+    insert_offense("Bengals", 3612, 2676, 936,18)
 
 def initialize_teams():
     insert_team("Baltimore", "Ravens", "AFC North")
@@ -197,7 +258,6 @@ def initialize_rankings():
     insert_rankings("New York", "Giants", 2, 10, 31)
     insert_rankings("Cincinnati", "Bengals", 1, 11, 32)
 
-
-if __name__ == "__main__":
-    # create_defense_stats()
-    # create_offense_stats()
+#
+# if __name__ == "__main__":
+#

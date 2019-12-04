@@ -8,7 +8,7 @@ class Rankings(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("NFL Power Rankings")
-        self.setGeometry(400,400,800,400)
+        self.setGeometry(400,400,500,800)
 
         rankings = src.bin.util.get_rankings()
 

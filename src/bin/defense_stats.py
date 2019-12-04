@@ -1,48 +1,60 @@
 import sys
-import src.bin.util
-from PyQt5.QtWidgets import QTableWidget, QWidget, QApplication, QVBoxLayout, QHeaderView, QTableWidgetItem
+import src.bin.util as util
+from PyQt5.QtWidgets import QTableWidget, QWidget, QLabel, QApplication, QVBoxLayout, QHeaderView, QTableWidgetItem, QLineEdit, QHBoxLayout
 import PyQt5.QtGui
 
 
-class Rankings(QWidget):
+class DStats(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("NFL Power Rankings")
-        self.setGeometry(400,400,800,400)
-
-        rankings = src.bin.util.get_rankings()
+        self.setWindowTitle("Defensive Statistics")
+        self.setGeometry(400,400,700,400)
 
         self.main_layout = QVBoxLayout()
-        self.rank_table = QTableWidget()
-        self.rank_table.verticalHeader().setVisible(False)
-        self.rank_table.setRowCount(0)
-        self.rank_table.setColumnCount(5)
-        self.rank_table.setHorizontalHeaderLabels(["Ranking", "Location", "Mascot_Name", "Wins", "Losses"])
+        self.h_layout = QHBoxLayout()
+        self.prompt = QLabel("Enter Team Mascot Name")
+        self.line_edit = QLineEdit()
 
-        for row in rankings:
-            num = self.rank_table.rowCount()
-            self.rank_table.insertRow(num)
-            self.rank_table.setItem(num, 0, QTableWidgetItem(str(row[4])))
-            self.rank_table.setItem(num, 1, QTableWidgetItem(row[0]))
-            self.rank_table.setItem(num, 2, QTableWidgetItem(row[1]))
-            self.rank_table.setItem(num, 3, QTableWidgetItem(str(row[2])))
-            self.rank_table.setItem(num, 4, QTableWidgetItem(str(row[3])))
+        self.o_table = QTableWidget()
+        self.o_table.verticalHeader().setVisible(False)
+        self.o_table.setRowCount(0)
+        self.o_table.setColumnCount(5)
+        self.o_table.setHorizontalHeaderLabels(["Name", "Total Yards Allowed", "Pass Yards Allowed", "Rush Yards Allowed", "TD Allowed"])
 
-
-        header = self.rank_table.horizontalHeader()
+        header = self.o_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
         header.setSectionResizeMode(2, QHeaderView.Stretch)
         header.setSectionResizeMode(3, QHeaderView.Stretch)
         header.setSectionResizeMode(4, QHeaderView.Stretch)
 
-        self.main_layout.addWidget(self.rank_table)
 
+        # # self.o_table.hide()
+
+        self.h_layout.addWidget(self.prompt)
+        self.h_layout.addWidget(self.line_edit)
+        self.main_layout.addLayout(self.h_layout)
+        self.main_layout.addWidget(self.o_table)
         self.setLayout(self.main_layout)
         self.show()
+
+        self.line_edit.returnPressed.connect(self.fill_table)
+
+    def fill_table(self):
+        name = self.line_edit.text()
+        stats = util.get_defense(name)
+
+        if len(stats) != 0:
+            num = self.o_table.rowCount()
+            self.o_table.insertRow(num)
+            self.o_table.setItem(num, 0, QTableWidgetItem(stats[0][0]))
+            self.o_table.setItem(num, 1, QTableWidgetItem(str(stats[0][1])))
+            self.o_table.setItem(num, 2, QTableWidgetItem(str(stats[0][2])))
+            self.o_table.setItem(num, 3, QTableWidgetItem(str(stats[0][3])))
+            self.o_table.setItem(num, 4, QTableWidgetItem(str(stats[0][4])))
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = Rankings()
+    ex = DStats()
     app.exec_()

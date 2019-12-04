@@ -1,5 +1,6 @@
 import sys
 import src.bin.main_window
+import src.bin.util as util
 from PyQt5.QtWidgets import QApplication, QWidget
 
 if __name__ == "__main__":
